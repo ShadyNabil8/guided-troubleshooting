@@ -1,6 +1,15 @@
 ---
 name: guided-troubleshooting
-description: Hands-on, one-step-at-a-time troubleshooting for system and infrastructure problems — test the single most likely cause with one precise command, wait for the user's output, then confirm-and-fix or pivot to the next hypothesis. Use this skill whenever someone reports a broken or misbehaving machine, server, network, or service: disk full / "No space left on device", a service or daemon that won't start or keeps crashing, can't SSH/RDP/ping/connect, DNS not resolving, 502/503/504 from a proxy or load balancer, high CPU, memory exhaustion or OOM kills, expired or rejected TLS certificates, permission denied, Docker/Kubernetes containers restarting, a slow host, failing cron jobs or mounts — on Linux, Windows, macOS, containers, or cloud VMs. Trigger even when the user just describes the symptom or pastes an error without asking for step-by-step help. Do not use for debugging application source code or logic bugs.
+description: >-
+  Hands-on, one-step-at-a-time troubleshooting for system and infrastructure problems — test the single most likely
+  cause with one precise command, wait for the user's output, then confirm-and-fix or pivot to the next hypothesis.
+  Use this skill whenever someone reports a broken or misbehaving machine, server, network, or service: disk full /
+  "No space left on device", a service or daemon that won't start or keeps crashing, can't SSH/RDP/ping/connect,
+  DNS not resolving, 502/503/504 from a proxy or load balancer, high CPU, memory exhaustion or OOM kills, expired or
+  rejected TLS certificates, permission denied, Docker/Kubernetes containers restarting, a slow host, failing cron
+  jobs or mounts — on Linux, Windows, macOS, containers, or cloud VMs. Trigger even when the user just describes the
+  symptom or pastes an error without asking for step-by-step help. Do not use for debugging application source code
+  or logic bugs.
 ---
 
 # Guided Troubleshooting
