@@ -1,0 +1,60 @@
+{
+  "skill_name": "guided-troubleshooting",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "ugh, our ubuntu 22.04 web server (runs nginx + a php app) started throwing 'No space left on device' when the app tries to write logs. df -h shows / at 100%. what do I do",
+      "expected_output": "One hypothesis (e.g. large logs/journal under /var), one read-only Linux command (du sorted) to find what's consuming space, what to look for, then asks for the output. No list of causes, no fixes yet.",
+      "files": [],
+      "expectations": [
+        "Tests exactly one hypothesis (no list or enumeration of alternative possible causes)",
+        "Gives exactly one command block to run (one command or one tightly coupled pipeline)",
+        "Does not include a fix or state-changing command before the cause is confirmed",
+        "Commands match the user's OS/shell",
+        "Ends by asking the user to run it and paste/share the output (waits)",
+        "Diagnostic command finds what is consuming space (du/ncdu-style), read-only"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Since this morning our site returns 502 Bad Gateway. It's nginx on Debian 12 reverse-proxying to a Node.js API that runs as a systemd service called api.service on port 3000. Nothing was deployed as far as I know.",
+      "expected_output": "One hypothesis (backend api.service down/crashed or nginx error log reveals upstream error), one read-only command using the user's actual names (api.service / port 3000 / nginx error log), what to look for, asks for output.",
+      "files": [],
+      "expectations": [
+        "Tests exactly one hypothesis (no list or enumeration of alternative possible causes)",
+        "Gives exactly one command block to run (one command or one tightly coupled pipeline)",
+        "Does not include a fix or state-changing command before the cause is confirmed",
+        "Commands match the user's OS/shell",
+        "Ends by asking the user to run it and paste/share the output (waits)",
+        "Uses the user's actual names (api.service, port 3000, or nginx error log) instead of placeholders"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "I can't RDP into one of our Windows Server 2022 VMs anymore - the client just says it can't connect to the remote computer. Ping to it still works fine from my laptop. I can still get a PowerShell session on it through the hypervisor console.",
+      "expected_output": "One hypothesis (RDP service/listener or firewall on port 3389), one read-only PowerShell command on the server via console, what to look for, asks for output. No bash commands.",
+      "files": [],
+      "expectations": [
+        "Tests exactly one hypothesis (no list or enumeration of alternative possible causes)",
+        "Gives exactly one command block to run (one command or one tightly coupled pipeline)",
+        "Does not include a fix or state-changing command before the cause is confirmed",
+        "Commands match the user's OS/shell",
+        "Ends by asking the user to run it and paste/share the output (waits)",
+        "Uses PowerShell/Windows commands only (no bash/Linux commands)"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "Here's our conversation so far:\n\nME: ubuntu 22.04 web server, 'No space left on device', df -h shows / at 100%\n\nYOU: **Checking:** something under / has grown unexpectedly \u00e2\u20ac\u201d usually logs. **Run:** `sudo du -xh / --max-depth=3 2>/dev/null | sort -rh | head -15` **Look for:** a single directory that's tens of GB. Paste the output.\n\nME: ok here:\n```\n58G\t/\n44G\t/var\n42G\t/var/log\n41G\t/var/log/journal\n9.1G\t/usr\n3.2G\t/usr/lib\n2.4G\t/home\n1.1G\t/var/lib\n800M\t/usr/share\n512M\t/opt\n```\nwhat next?",
+      "expected_output": "Confirms systemd journal (41G in /var/log/journal) is the cause, quotes the relevant line, gives one safe fix (journalctl --vacuum-size / --vacuum-time) noting impact (old logs lost), then a verify command (df -h /), optionally a prevention tip like SystemMaxUse only at close-out. Does not list other causes.",
+      "files": [],
+      "expectations": [
+        "Confirms the systemd journal (/var/log/journal, 41G) as the cause",
+        "Gives a single fix using journalctl --vacuum-size or --vacuum-time (not rm on journal files)",
+        "Notes the impact of the fix (old logs will be deleted) or asks for confirmation before it",
+        "Provides a verification command (e.g. df -h /) or asks for output after the fix",
+        "Does not list alternative causes or a multi-branch set of options"
+      ]
+    }
+  ]
+}
